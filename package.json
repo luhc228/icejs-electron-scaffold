@@ -4,31 +4,75 @@
   "version": "1.0.0",
   "scripts": {
     "setup": "rm -rf node_modules && ELECTRON_MIRROR=https://cdn.npm.taobao.org/dist/electron/ npm install --registry=http://registry.npm.taobao.org",
-    "start": "electron ./dist",
-    "build": "icejs build && tsc --build ./main/tsconfig.json",
-    "watch": "icejs start --disable-open & tsc --build ./main/tsconfig.json -w",
-    "lint": "eslint --cache --ext .ts,.tsx ./"
+    "start": "concurrently \"npm run watch\" \"wait-on http://localhost:3333 && electron ./dist\" ",
+    "watch": "npm run watch:renderer & npm run watch:main",
+    "watch:renderer": "cd ./renderer && npm start",
+    "watch:main": "tsc --build ./main/tsconfig.json -w",
+    "build": "npm run build:renderer && npm run build:main",
+    "build:renderer": "cd ./renderer && npm run build",
+    "build:main": "tsc --build ./main/tsconfig.json",
+    "package": "npm run build && NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-builder build --mac",
+    "lint": "npm run eslint && npm run stylelint",
+    "eslint": "eslint --cache --ext .js,.jsx,.ts,.tsx ./",
+    "eslint:fix": "npm run eslint -- --fix",
+    "stylelint": "stylelint \"**/*.{css,scss,less}\""
+  },
+  "main": "./dist/index.js",
+  "build": {
+    "appId": "icejs-electron-scaffold",
+    "productName": "icejs-electron-scaffold",
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "asar": false,
+    "directories": {
+      "buildResources": "resource",
+      "output": "release"
+    },
+    "copyright": "Copyright © 2020 icejs",
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "resources/icon.icns"
+    },
+    "dmg": {
+      "background": "resources/background.png",
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 410,
+          "y": 180,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 180,
+          "type": "file"
+        }
+      ],
+      "iconSize": 128
+    }
   },
   "dependencies": {
-    "@alifd/next": "^1.19.17",
-    "@alifd/theme-design-pro": "^0.6.0",
-    "electron": "^8.2.0",
-    "ice.js": "^1.0.12",
-    "moment": "^2.24.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "electron-is-dev": "^2.0.0"
   },
   "devDependencies": {
-    "@ice/spec": "^1.0.1",
+    "@iceworks/spec": "^1.0.0",
     "@types/electron": "^1.6.10",
-    "@types/react": "^16.9.23",
-    "@types/react-dom": "^16.9.5",
-    "build-plugin-fusion": "^0.1.0",
-    "build-plugin-moment-locales": "^0.1.0",
     "commitlint": "^8.3.5",
     "concurrently": "^5.1.0",
+    "electron": "^8.2.0",
+    "electron-builder": "^22.10.5",
     "eslint": "^6.8.0",
     "stylelint": "^13.2.0",
-    "typescript": "^3.8.2"
+    "typescript": "^3.8.2",
+    "wait-on": "^5.3.0"
   }
 }

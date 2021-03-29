@@ -1,5 +1,5 @@
 // @ts-nocheck
-
+import * as isDev from 'electron-is-dev';
 import { app, BrowserWindow } from 'electron';
 // Modules to control application life and create native browser window
 import * as path from 'path';
@@ -11,15 +11,18 @@ function createWindow(): BrowserWindow {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false,
     }
   });
 
   // and load the index.html of the app.
-  // mainWindow.loadFile('./index.html')
-  mainWindow.loadURL('http://localhost:3333/');
+  if (isDev) {
+    mainWindow.loadURL('http://localhost:3333/');
+  } else {
+    mainWindow.loadFile(path.resolve(__dirname, './assets/index.html'));
+  }
 
-  // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 }
 

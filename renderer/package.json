@@ -1,0 +1,23 @@
+{
+  "name": "@alifd/scaffold-lite",
+  "version": "0.1.0",
+  "description": "轻量级模板，使用 TypeScript，仅包含基础的 Layout。",
+  "dependencies": {
+    "@alifd/next": "^1.19.4",
+    "moment": "^2.24.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "@alifd/theme-design-pro": "^0.x"
+  },
+  "devDependencies": {
+    "build-plugin-css-assets-local": "^0.1.0",
+    "build-plugin-fusion": "^0.1.0",
+    "build-plugin-moment-locales": "^0.1.0",
+    "ice.js": "^1.0.0"
+  },
+  "scripts": {
+    "start": "icejs start --disable-open",
+    "build": "icejs build"
+  },
+  "private": true
+}
