@@ -1,9 +1,10 @@
 # 忽略目录
-build/
+dist/
 tests/
 demo/
-.ice/
-
+renderer/.ice/
+release/
+**/node_modules
 # node 覆盖率文件
 coverage/
 

@@ -1,4 +1,5 @@
 {
+  "extends": "../tsconfig.json",
   "compileOnSave": false,
   "buildOnSave": false,
   "compilerOptions": {
@@ -8,26 +9,16 @@
     "target": "es6",
     "jsx": "react",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "lib": ["es6", "dom"],
-    "sourceMap": true,
     "allowJs": true,
     "rootDir": "./",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": false,
-    "importHelpers": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true,
-    "skipLibCheck": true,
     "types": ["node"],
     "paths": {
       "@/*": ["./src/*"],
-      "ice": [".ice/index.ts"]
+      "ice": [".ice/index.ts"],
+      "ice/*": [".ice/pages/*"]
     }
   },
   "include": ["src", ".ice"],
-  "exclude": ["node_modules", "build", "public"]
+  "exclude": ["node_modules", "public"]
 }
